@@ -1,15 +1,16 @@
 # Unity 6 upgrade (branch: unity6-upgrade)
 
-Target editor: **Unity 6.0 LTS — 6000.0.64f1** (latest 6000.0 LTS as of Nov 2026).
+Target editor: **Unity 6000.6.9f1** (installed locally; newer than the 6000.0 LTS line).
 Original project: Unity 2021.3.15f1.
 
 ## What this branch changes
 
-- `ProjectSettings/ProjectVersion.txt` → `6000.0.64f1 (5360b7cd7953)`
+- `ProjectSettings/ProjectVersion.txt` → `6000.6.9f1 (8c45277fb9c5)`
 - `Packages/manifest.json`:
-  - `com.unity.render-pipelines.high-definition` / `universal`: 12.1.8 → **17.0.3**
+  - `com.unity.render-pipelines.high-definition` / `universal`: 12.1.8 → **17.5.0**
+    (17.5.x is the HDRP line for the 6000.6 stream)
   - `com.unity.cinemachine`: 2.9.1 → **3.1.3**
-  - `com.unity.inputsystem`: 1.4.4 → **1.11.0**
+  - `com.unity.inputsystem`: 1.4.4 → **1.14.2**
   - `com.unity.timeline`: 1.6.4 → **1.8.7** (used by `InfernalSkyfallTimeline.playable`)
   - `com.unity.textmeshpro`: 3.0.6 → **3.0.9**
   - `com.unity.terrain-tools`: 4.0.3 → **5.0.4**
@@ -25,10 +26,10 @@ Original project: Unity 2021.3.15f1.
 
 ## How to open
 
-1. Unity Hub → Installs → install **Unity 6.0 LTS 6000.0.64f1**
-   (include Windows Build Support module).
+1. Unity Hub → Installs → **6000.6.9f1** (already installed;
+   include Windows Build Support module).
 2. Projects → Add → select this folder (must contain `Assets/`, `ProjectSettings/`).
-3. Open with 6000.0.64f1. First import takes a long time (HDRP shader compilation).
+3. Open with 6000.6.9f1. First import takes a long time (HDRP shader compilation).
    Accept the Input System restart prompt if shown.
 
 ## Known manual steps (need the Editor)
