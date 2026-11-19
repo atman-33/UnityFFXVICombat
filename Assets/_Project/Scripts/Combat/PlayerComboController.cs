@@ -93,7 +93,9 @@ public class PlayerComboController : MonoBehaviour
     public void OnAttackAnimationEnd()
     {
         //if it's in the middle of the combo, return
-        if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name.Contains("Slash"))
+        // (clip info can be empty while an interrupted transition is resolving)
+        AnimatorClipInfo[] currentClips = _animator.GetCurrentAnimatorClipInfo(0);
+        if (currentClips.Length > 0 && currentClips[0].clip.name.Contains("Slash"))
         {
             return;
         }
