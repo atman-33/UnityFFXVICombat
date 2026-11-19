@@ -1,7 +1,7 @@
 # UnityFFXVICombat
 
-Fork of gabriel0223/UnityFFXVICombat (FFXVI-style third-person combat, HDRP),
-ported from Unity 2021.3 to **Unity 6000.6.9f1**. Kept as a playable reference
+Fork of gabriel0223/UnityFFXVICombat (FFXVI-style third-person combat), ported
+from Unity 2021.3 / HDRP to **Unity 6000.6.9f1 / URP**. Kept as a playable reference
 for action-RPG combat work. `README.md` is upstream's description; do not edit it.
 
 ## Where things are
@@ -23,8 +23,9 @@ for action-RPG combat work. `README.md` is upstream's description; do not edit i
 
 ## House rules
 
-- `main` is upstream's 2021.3 project. Work on `unity6-upgrade`, or branch from it as
-  `feature/<task-id>-<slug>`. Conventional Commits in English; code, comments and
+- `main` is the Unity 6 / URP project. Branch from it as `feature/<task-id>-<slug>`.
+  Upstream's original 2021.3 HDRP state is the tag `upstream-2021.3`; never push to
+  the `upstream` remote. Conventional Commits in English; code, comments and
   docs are English.
 - The owner's working tree often carries Editor-side changes (`.mat`, `.unity`,
   `ProjectSettings/`). Commit only the files your change touched.

@@ -1,8 +1,8 @@
 # Unity 6 upgrade
 
-Branch `unity6-upgrade` runs the upstream Unity 2021.3.15f1 sample on
-**Unity 6000.6.9f1** with **URP**. `main` is still the upstream 2021.3 HDRP
-project; `git checkout main` rolls back.
+`main` runs the upstream Unity 2021.3.15f1 sample on **Unity 6000.6.9f1** with
+**URP**. The upstream 2021.3 HDRP project is the tag `upstream-2021.3`;
+`git checkout upstream-2021.3` rolls back.
 
 This page is the procedure and the current state. The step-by-step history of
 the migration (each error and its fix) lives in the vault:
