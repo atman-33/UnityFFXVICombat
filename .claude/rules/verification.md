@@ -19,5 +19,19 @@ paths:
   (`#if UNITY_EDITOR`, `[RuntimeInitializeOnLoadMethod]`) that writes to
   `Logs/<name>.txt`, then read the file. Delete `Assets/_Diag/` and its `.meta` before
   committing.
+- To drive combat from a `_Diag` script, call `InputManager`'s handlers directly
+  (`OnAttack`, `OnPhoenixShift`, `OnDodge`, `MoveInput`); ability mode is the private
+  `_isInEikonicAbilityMode` field, set by reflection. An exception thrown by a game
+  handler propagates into the driver and silently ends its coroutine, so wrap each
+  press in `try`/`catch` and record the exception.
+- **Count console output in the `_Diag` script, not with `Unity_GetConsoleLogs`.** That
+  tool returns at most 200 entries, so one flood (hundreds of identical errors) hides
+  every other kind. Hook `Application.logMessageReceived` and key each entry by its
+  first line plus the first `_Project/Scripts` stack frame.
+- `Unity_RunCommand` rejects `using System.Reflection`; put reflection in the `_Diag`
+  script instead.
+- To prove a fix, run the same driver once with the fix reverted
+  (`git diff -- <paths> > patch`, `git checkout -- <paths>`, Play, `git apply patch`)
+  and check the error shows up there and is gone with the fix.
 - Known Editor noise, unrelated to gameplay: repeated `TargetParameterCountException`
   from the SerializedCollections property drawer.

@@ -14,3 +14,10 @@ paths:
   script it showed as a white diagonal band across the screen. When a white or solid
   shape appears in the Game view, look for a "Missing Script" on a mask object first.
 - When swapping a mask component, keep its `showMaskGraphic` value.
+- A missing script whose serialized fields are `m_Inverse`, `m_MaskInteraction`,
+  `m_UseStencil`, `m_RaycastFilter` is a leftover SoftMaskable (GUID
+  `97bc2ebab6563400c95b036136d26ea6`). Children of a built-in `Mask` need no such
+  component, so remove it: `PrefabUtility.LoadPrefabContents`,
+  `GameObjectUtility.RemoveMonoBehavioursWithMissingScript` on every child,
+  `SaveAsPrefabAsset`. Fix it in the base prefab (`ComboIndicator`); its variants
+  inherit the removal.

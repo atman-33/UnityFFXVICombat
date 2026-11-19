@@ -30,7 +30,9 @@ public class DashController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_isInDash)
+        // A dash can still be running when its owner dies and EnemyHealth.Die
+        // disables the controller (e.g. the knockback of the killing blow).
+        if (!_isInDash || !_characterController.enabled)
         {
             return;
         }

@@ -26,8 +26,8 @@ public class SkillButtonsManager : MonoBehaviour
 
     private void OnDisable()
     {
-        _inputManager.OnShowAbilitiesPressed += HandleShowAbilitiesPressed;
-        _inputManager.OnShowAbilitiesReleased += HandleShowAbilitiesReleased;
+        _inputManager.OnShowAbilitiesPressed -= HandleShowAbilitiesPressed;
+        _inputManager.OnShowAbilitiesReleased -= HandleShowAbilitiesReleased;
         _abilityManager.OnEikonicAbilityExecuted -= HandleEikonicAbilityExecuted;
     }
 
