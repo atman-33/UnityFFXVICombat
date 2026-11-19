@@ -28,6 +28,12 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        // EnemyHealth.Die disables the controller; a dead enemy no longer moves.
+        if (!_characterController.enabled)
+        {
+            return;
+        }
+
         Vector3 localVelocity = transform.InverseTransformVector(_characterController.velocity);
 
         _animator.SetFloat("VelocityX", localVelocity.x, 0.1f, Time.deltaTime);

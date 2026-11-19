@@ -50,7 +50,13 @@ public class AbilityManager : MonoBehaviour
             return;
         }
 
-        EikonicAbility eikonicAbility = Abilities[buttonDirection];
+        // A button with no ability assigned does nothing, matching the HUD,
+        // which leaves that slot empty (SkillButtonsManager.Start).
+        if (!Abilities.TryGetValue(buttonDirection, out EikonicAbility eikonicAbility) ||
+            eikonicAbility == null)
+        {
+            return;
+        }
 
         if (eikonicAbility.CurrentCooldown > 0)
         {
