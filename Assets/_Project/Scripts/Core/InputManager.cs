@@ -11,6 +11,7 @@ namespace StarterAssets
 		public event Action OnAttackPressed;
 		public event Action OnPhoenixShiftPressed;
 		public event Action OnDodgePressed;
+		public event Action OnJumpPressed;
 		public event Action OnShowAbilitiesPressed;
 		public event Action OnShowAbilitiesReleased;
 		public event Action<ButtonDirection> OnEikonicAbilityPressed;
@@ -88,6 +89,11 @@ namespace StarterAssets
 		public void OnDodge()
 		{
 			OnDodgePressed?.Invoke();
+		}
+
+		public void OnJump()
+		{
+			OnJumpPressed?.Invoke();
 		}
 
 		public void MoveInput(Vector2 newMoveDirection)

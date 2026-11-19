@@ -9,6 +9,14 @@ paths:
 - The Unity MCP server (`unity`) drives the open Editor. `Unity_RunCommand` runs C#
   in it: set `EditorApplication.isPlaying = true` to enter Play and `false` to leave.
   The class must be `internal class CommandScript : IRunCommand`.
+- **Check `EditorApplication.isPlaying` before editing scripts.** The owner may leave
+  the Editor in Play. Scripts recompiled during Play are hot-reloaded into the
+  running scene without re-running `Start`. Expect `Parameter 'Hash 0' does not exist`
+  and `NullReferenceException`s from `OnEnable`/`OnDisable`, and `_Diag` boot methods
+  that never run. Setting `isPlaying = true` then does nothing. Leave Play
+  (`isPlaying = false`), refresh, and enter again, each in its own `Unity_RunCommand`:
+  `AssetDatabase.Refresh` in the same call as leaving Play is refused as a "user
+  interaction", and so is `File.Delete`. Delete files from the shell.
 - **Check for compile errors first.** If scripts do not compile, Play silently does not
   start (`All compiler errors have to be fixed before you can enter playmode!`). Read
   `Unity_GetConsoleLogs` with `logTypes: "error"`, or check

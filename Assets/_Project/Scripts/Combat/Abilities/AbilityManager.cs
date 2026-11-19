@@ -18,7 +18,8 @@ public class AbilityManager : MonoBehaviour
     [SerializeField] private SerializedDictionary<ButtonDirection, EikonicAbility> _abilities;
 
     private InputManager _inputManager;
-    private bool _canUseAbilities; 
+    private PlayerMovement _playerMovement;
+    private bool _canUseAbilities;
 
     public SerializedDictionary<ButtonDirection, EikonicAbility> Abilities => _abilities;
     public EikonicAbility AbilityInUse { get; private set; }
@@ -26,6 +27,7 @@ public class AbilityManager : MonoBehaviour
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void OnEnable()
@@ -46,6 +48,14 @@ public class AbilityManager : MonoBehaviour
     private void HandleAbilityPressed(ButtonDirection buttonDirection)
     {
         if (!_canUseAbilities)
+        {
+            return;
+        }
+
+        // Abilities are grounded only: each one places its timeline and VFX at
+        // the player's position on activation, which mid-air would leave them
+        // floating.
+        if (_playerMovement != null && !_playerMovement.Grounded)
         {
             return;
         }
