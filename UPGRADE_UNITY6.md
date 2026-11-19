@@ -58,6 +58,17 @@ Fix: replaced all 6 `SoftMask` components with built-in
 - `Assets/_Project/Scenes/LIghtweightScene.unity` — same two
 - `Assets/_Project/Prefabs/UI/ComboIndicator.prefab` — `Mask`, `ActionNameMask`
 
+## Player falls through the terrain on Play (fixed)
+
+Cause: all `com.unity.modules.*` entries were dropped from
+`Packages/manifest.json` to get past the missing `com.unity.modules.vr@1.0.0`.
+Built-in modules are not implicit: without `com.unity.modules.terrainphysics`
+the `TerrainCollider` type does not exist, so the terrain had no collider and
+the player (and any Rigidbody) fell forever.
+
+Fix: restored every module the original manifest listed except
+`com.unity.modules.vr`, which 6000.6 no longer ships.
+
 ## Rollback
 
 `git checkout main` returns to the Unity 2021.3.15f1 version.
