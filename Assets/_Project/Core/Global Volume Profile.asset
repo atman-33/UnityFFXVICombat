@@ -222,6 +222,11 @@ MonoBehaviour:
   rayMiss:
     m_OverrideState: 1
     m_Value: 3
+  adaptiveProbeVolumesLayerMask:
+    m_OverrideState: 0
+    m_Value:
+      serializedVersion: 0
+      m_Bits: 1
   depthBufferThickness:
     m_OverrideState: 1
     m_Value: 0.1
@@ -306,6 +311,7 @@ MonoBehaviour:
   m_Name: VisualEnvironment
   m_EditorClassIdentifier: 
   active: 1
+  m_Version: 1
   skyType:
     m_OverrideState: 1
     m_Value: 4
@@ -315,6 +321,18 @@ MonoBehaviour:
   skyAmbientMode:
     m_OverrideState: 1
     m_Value: 1
+  planetRadius:
+    m_OverrideState: 0
+    m_Value: 6378.1
+  renderingSpace:
+    m_OverrideState: 0
+    m_Value: 1
+  centerMode:
+    m_OverrideState: 0
+    m_Value: 0
+  planetCenter:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: -6378.1, z: 0}
   windOrientation:
     m_OverrideState: 0
     m_Value: 0
@@ -394,6 +412,9 @@ MonoBehaviour:
   sliceDistributionUniformity:
     m_OverrideState: 1
     m_Value: 0.75
+  multipleScatteringIntensity:
+    m_OverrideState: 0
+    m_Value: 0
   m_FogControlMode:
     m_OverrideState: 1
     m_Value: 0
@@ -411,6 +432,9 @@ MonoBehaviour:
     m_Value: 0.666
   directionalLightsOnly:
     m_OverrideState: 1
+    m_Value: 0
+  volumetricLightingDensityCutoff:
+    m_OverrideState: 0
     m_Value: 0
 --- !u!114 &-2445824087620705026
 MonoBehaviour:
@@ -455,21 +479,28 @@ MonoBehaviour:
   includeSunInBaking:
     m_OverrideState: 1
     m_Value: 0
-  type:
+  m_SkyVersion: 2
+  m_ObsoleteEarthPreset:
     m_OverrideState: 1
     m_Value: 1
-  sphericalMode:
-    m_OverrideState: 1
-    m_Value: 1
-  seaLevel:
-    m_OverrideState: 1
-    m_Value: 0
   planetaryRadius:
     m_OverrideState: 1
     m_Value: 6378100
   planetCenterPosition:
     m_OverrideState: 1
     m_Value: {x: 0, y: -6378100, z: 0}
+  type:
+    m_OverrideState: 1
+    m_Value: 1
+  atmosphericScattering:
+    m_OverrideState: 0
+    m_Value: 1
+  renderingMode:
+    m_OverrideState: 0
+    m_Value: 0
+  material:
+    m_OverrideState: 0
+    m_Value: {fileID: -876546973899608171, guid: 02532cbb810fb404db49da84f1efe41e, type: 3}
   airDensityR:
     m_OverrideState: 1
     m_Value: 0.04534
@@ -481,7 +512,7 @@ MonoBehaviour:
     m_Value: 0.23264056
   airTint:
     m_OverrideState: 1
-    m_Value: {r: 0.9, g: 0.9, b: 1, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   airMaximumAltitude:
     m_OverrideState: 1
     m_Value: 55261.973
@@ -497,9 +528,15 @@ MonoBehaviour:
   aerosolAnisotropy:
     m_OverrideState: 1
     m_Value: 0
-  numberOfBounces:
-    m_OverrideState: 1
-    m_Value: 3
+  ozoneDensityDimmer:
+    m_OverrideState: 0
+    m_Value: 1
+  ozoneMinimumAltitude:
+    m_OverrideState: 0
+    m_Value: 20000
+  ozoneLayerWidth:
+    m_OverrideState: 0
+    m_Value: 20000
   groundTint:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -542,10 +579,6 @@ MonoBehaviour:
   horizonZenithShift:
     m_OverrideState: 1
     m_Value: 0
-  m_SkyVersion: 1
-  m_ObsoleteEarthPreset:
-    m_OverrideState: 1
-    m_Value: 1
 --- !u!114 &-2047051878150787692
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -626,6 +659,12 @@ MonoBehaviour:
   enable:
     m_OverrideState: 1
     m_Value: 1
+  directionalOnly:
+    m_OverrideState: 0
+    m_Value: 0
+  halfResolution:
+    m_OverrideState: 0
+    m_Value: 0
   length:
     m_OverrideState: 1
     m_Value: 0.15
@@ -776,6 +815,27 @@ MonoBehaviour:
   accumulationFactor:
     m_OverrideState: 1
     m_Value: 0.75
+  biasFactor:
+    m_OverrideState: 0
+    m_Value: 0.5
+  speedRejectionParam:
+    m_OverrideState: 0
+    m_Value: 0.5
+  speedRejectionScalerFactor:
+    m_OverrideState: 0
+    m_Value: 0.2
+  speedSmoothReject:
+    m_OverrideState: 0
+    m_Value: 0
+  speedSurfaceOnly:
+    m_OverrideState: 0
+    m_Value: 1
+  speedTargetOnly:
+    m_OverrideState: 0
+    m_Value: 1
+  enableWorldSpeedRejection:
+    m_OverrideState: 0
+    m_Value: 0
   m_RayMaxIterations:
     m_OverrideState: 1
     m_Value: 32
@@ -808,9 +868,9 @@ MonoBehaviour:
   m_DenoiserRadius:
     m_OverrideState: 1
     m_Value: 8
-  m_AffectSmoothSurfaces:
-    m_OverrideState: 1
-    m_Value: 0
+  m_DenoiserAntiFlickeringStrength:
+    m_OverrideState: 0
+    m_Value: 1
   mode:
     m_OverrideState: 1
     m_Value: 2
@@ -826,6 +886,11 @@ MonoBehaviour:
   m_RayMaxIterationsRT:
     m_OverrideState: 1
     m_Value: 48
+  adaptiveProbeVolumesLayerMask:
+    m_OverrideState: 0
+    m_Value:
+      serializedVersion: 0
+      m_Bits: 1
 --- !u!114 &4297582534303735499
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -886,27 +951,40 @@ MonoBehaviour:
   m_Name: VolumetricClouds
   m_EditorClassIdentifier: 
   active: 0
-  enable:
-    m_OverrideState: 1
-    m_Value: 1
+  m_Version: 3
   localClouds:
     m_OverrideState: 1
     m_Value: 0
-  earthCurvature:
+  m_ObsoleteWindSpeed:
+    m_OverrideState: 1
+    m_Value: 1
+  m_ObsoleteOrientation:
     m_OverrideState: 1
     m_Value: 0
+  m_ObsoleteShapeOffsetX:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteShapeOffsetY:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteShapeOffsetZ:
+    m_OverrideState: 1
+    m_Value: 0
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
   cloudTiling:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1}
   cloudOffset:
     m_OverrideState: 1
     m_Value: {x: 0, y: 0}
-  lowestCloudAltitude:
-    m_OverrideState: 1
-    m_Value: 1000
-  cloudThickness:
-    m_OverrideState: 1
-    m_Value: 5000
+  bottomAltitude:
+    m_OverrideState: 0
+    m_Value: 1200
+  altitudeRange:
+    m_OverrideState: 0
+    m_Value: 2000
   fadeInMode:
     m_OverrideState: 1
     m_Value: 0
@@ -933,7 +1011,10 @@ MonoBehaviour:
   cloudControl:
     m_OverrideState: 1
     m_Value: 0
-  cloudPreset:
+  cloudSimpleMode:
+    m_OverrideState: 0
+    m_Value: 0
+  m_CloudPreset:
     m_OverrideState: 1
     m_Value: 1
   cumulusMap:
@@ -964,8 +1045,8 @@ MonoBehaviour:
   cloudMapResolution:
     m_OverrideState: 1
     m_Value: 64
-  customDensityCurve:
-    m_OverrideState: 1
+  densityCurve:
+    m_OverrideState: 0
     m_Value:
       serializedVersion: 2
       m_Curve:
@@ -979,25 +1060,7 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.2
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.5
-        value: 0.7
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.8
+        time: 0.15
         value: 1
         inSlope: 0
         outSlope: 0
@@ -1007,7 +1070,7 @@ MonoBehaviour:
         outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1017,32 +1080,23 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  customErosionCurve:
-    m_OverrideState: 1
+  erosionCurve:
+    m_OverrideState: 0
     m_Value:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.1
         value: 0.9
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.2
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.8
-        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1051,7 +1105,7 @@ MonoBehaviour:
         outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 0.9
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1061,14 +1115,14 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  customAmbientOcclusionCurve:
-    m_OverrideState: 1
+  ambientOcclusionCurve:
+    m_OverrideState: 0
     m_Value:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1076,8 +1130,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0
-        value: 0
+        time: 0.25
+        value: 0.4
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1126,6 +1180,15 @@ MonoBehaviour:
   erosionNoiseType:
     m_OverrideState: 1
     m_Value: 1
+  microErosion:
+    m_OverrideState: 0
+    m_Value: 0
+  microErosionFactor:
+    m_OverrideState: 0
+    m_Value: 0.5
+  microErosionScale:
+    m_OverrideState: 0
+    m_Value: 200
   ambientLightProbeDimmer:
     m_OverrideState: 1
     m_Value: 0.412
@@ -1182,9 +1245,6 @@ MonoBehaviour:
   shadowResolution:
     m_OverrideState: 1
     m_Value: 256
-  shadowPlaneHeightOffset:
-    m_OverrideState: 1
-    m_Value: 0
   shadowDistance:
     m_OverrideState: 1
     m_Value: 8000
@@ -1192,21 +1252,5 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   shadowOpacityFallback:
-    m_OverrideState: 1
-    m_Value: 0
-  m_Version: 2
-  m_ObsoleteWindSpeed:
-    m_OverrideState: 1
-    m_Value: 1
-  m_ObsoleteOrientation:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetX:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetY:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetZ:
     m_OverrideState: 1
     m_Value: 0

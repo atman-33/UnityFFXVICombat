@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 12
+  version: 13
   hdPluginSubTargetMaterialVersions:
     m_Keys: []
     m_Values: 
@@ -24,8 +24,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Distortion
-  m_Shader: {fileID: -6465566751694194690, guid: 8151fa64876e1fc469553818250affb0,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 8151fa64876e1fc469553818250affb0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
@@ -44,6 +45,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -91,12 +93,15 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
+    - _DstBlend2: 10
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 0
+    - _ExcludeFromTUAndAA: 0
     - _Falloff: 0.4
     - _InnerRadius: 1
     - _OpaqueCullMode: 2
     - _OuterRadius: 1
+    - _PerPixelSorting: 0
     - _Radius: -0.92
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -106,15 +111,15 @@ Material:
     - _RequireSplitLighting: 0
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _StencilRefDepth: 0
+    - _StencilRefDepth: 1
     - _StencilRefDistortionVec: 4
     - _StencilRefGBuffer: 2
-    - _StencilRefMV: 32
+    - _StencilRefMV: 33
     - _StencilWriteMask: 6
-    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDepth: 9
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
-    - _StencilWriteMaskMV: 40
+    - _StencilWriteMaskMV: 43
     - _Strength: 1
     - _SupportDecals: 1
     - _SurfaceType: 1
@@ -139,3 +144,4 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Remap: {r: -0.2, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
