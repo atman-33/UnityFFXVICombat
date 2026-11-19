@@ -45,6 +45,19 @@ Original project: Unity 2021.3.15f1.
 4. Play-test: `Assets/_Project/Scenes/MainScene.unity` → Press Play.
    Controls: WASD move, LMB attack, RMB Phoenix Shift, Space dodge, Shift abilities.
 
+## White diagonal band (fixed)
+
+Cause: the `coffee SoftMask` package was removed during migration, but
+`Canvas/SkillButtons/Mask` still referenced its script. With the script
+missing, the white mask Image (412x1736, rotated -45°,
+`ShowMaskGraphic: false`) rendered unmasked as a fullscreen diagonal band.
+
+Fix: replaced all 6 `SoftMask` components with built-in
+`UnityEngine.UI.Mask` (`showMaskGraphic` preserved), no new dependencies:
+- `Assets/_Project/Scenes/MainScene.unity` — `SkillButtons/Mask`, skill-slot `Mask`
+- `Assets/_Project/Scenes/LIghtweightScene.unity` — same two
+- `Assets/_Project/Prefabs/UI/ComboIndicator.prefab` — `Mask`, `ActionNameMask`
+
 ## Rollback
 
 `git checkout main` returns to the Unity 2021.3.15f1 version.
