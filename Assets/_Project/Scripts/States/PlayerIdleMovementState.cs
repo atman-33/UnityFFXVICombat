@@ -22,6 +22,7 @@ public class PlayerIdleMovementState : BaseState
         _inputManager.OnAttackPressed += SwitchToAttack;
         _inputManager.OnPhoenixShiftPressed += SwitchToPhoenixShift;
         _inputManager.OnDodgePressed += SwitchToDodge;
+        _inputManager.OnJumpPressed += HandleJumpPressed;
         _abilityManager.OnEikonicAbilityExecuted += SwitchToAbilityUse;
     }
 
@@ -37,7 +38,13 @@ public class PlayerIdleMovementState : BaseState
         _inputManager.OnAttackPressed -= SwitchToAttack;
         _inputManager.OnPhoenixShiftPressed -= SwitchToPhoenixShift;
         _inputManager.OnDodgePressed -= SwitchToDodge;
+        _inputManager.OnJumpPressed -= HandleJumpPressed;
         _abilityManager.OnEikonicAbilityExecuted -= SwitchToAbilityUse;
+    }
+
+    private void HandleJumpPressed()
+    {
+        _playerMovement.TryJump();
     }
 
     private void SwitchToAttack()

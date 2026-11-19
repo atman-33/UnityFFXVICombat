@@ -27,6 +27,16 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
     public float GravityForce = -15.0f;
 
+    [Tooltip("The height the player can jump")]
+    public float JumpHeight = 1.2f;
+
+    [Space(10)]
+    [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
+    public float JumpTimeout = 0.50f;
+
+    [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
+    public float FallTimeout = 0.15f;
+
     [Header("Player Grounded")]
     [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
     public bool Grounded = true;
@@ -69,9 +79,17 @@ public class PlayerMovement : MonoBehaviour
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
 
+    // jump
+    private float _jumpTimeoutDelta;
+    private float _fallTimeoutDelta;
+    private bool _jumpRequested;
+    private bool _movedThisFrame;
+
     // animation IDs
     private int _animIDSpeed;
     private int _animIDGrounded;
+    private int _animIDJump;
+    private int _animIDFreeFall;
     private int _animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -117,17 +135,30 @@ public class PlayerMovement : MonoBehaviour
 #endif
 
         AssignAnimationIDs();
+
+        _jumpTimeoutDelta = JumpTimeout;
+        _fallTimeoutDelta = FallTimeout;
     }
 
     private void Update()
     {
-        Gravity();
+        JumpAndGravity();
         GroundedCheck();
     }
 
     private void LateUpdate()
     {
+        ApplyVerticalMovementIfNotMoved();
         CameraRotation();
+    }
+
+    /// <summary>
+    /// Requests a jump. It happens on the next update, and only if the
+    /// player is grounded and the jump cooldown has elapsed.
+    /// </summary>
+    public void TryJump()
+    {
+        _jumpRequested = true;
     }
 
     public void Move()
@@ -189,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // move the player
+        _movedThisFrame = true;
         _controller.Move(_targetDirection * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
@@ -222,22 +254,85 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void Gravity()
+    private void JumpAndGravity()
     {
         if (Grounded)
         {
+            _fallTimeoutDelta = FallTimeout;
+
+            if (_hasAnimator)
+            {
+                _animator.SetBool(_animIDJump, false);
+                _animator.SetBool(_animIDFreeFall, false);
+            }
+
             // stop our velocity dropping infinitely when grounded
             if (_verticalVelocity < 0.0f)
             {
                 _verticalVelocity = -2f;
             }
+
+            if (_jumpRequested && _jumpTimeoutDelta <= 0.0f)
+            {
+                // the square root of H * -2 * G = how much velocity needed to reach desired height
+                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * GravityForce);
+
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDJump, true);
+                }
+            }
+
+            if (_jumpTimeoutDelta >= 0.0f)
+            {
+                _jumpTimeoutDelta -= Time.deltaTime;
+            }
         }
+        else
+        {
+            _jumpTimeoutDelta = JumpTimeout;
+
+            if (_fallTimeoutDelta >= 0.0f)
+            {
+                _fallTimeoutDelta -= Time.deltaTime;
+            }
+            else if (_hasAnimator)
+            {
+                _animator.SetBool(_animIDFreeFall, true);
+            }
+        }
+
+        // a jump pressed mid-air is dropped, not buffered until landing
+        _jumpRequested = false;
 
         // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
         if (_verticalVelocity > -_terminalVelocity)
         {
             _verticalVelocity += GravityForce * Time.deltaTime;
         }
+    }
+
+    /// <summary>
+    /// Move() applies vertical velocity together with horizontal movement, but
+    /// only the idle/movement state calls it. In every other state (attack,
+    /// dodge, Phoenix Shift) apply the vertical part on its own so the player
+    /// keeps falling instead of hanging mid-air. It runs in LateUpdate so a
+    /// Move() from any Update this frame is seen; calling both would make
+    /// CharacterController.velocity report only the vertical part, which
+    /// Move() reads as the current horizontal speed.
+    /// </summary>
+    private void ApplyVerticalMovementIfNotMoved()
+    {
+        bool moved = _movedThisFrame;
+        _movedThisFrame = false;
+
+        // Abilities drive the player with root motion; leave them alone.
+        if (moved || !_controller.enabled || (_hasAnimator && _animator.applyRootMotion))
+        {
+            return;
+        }
+
+        _controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
     }
 
     private void GroundedCheck()
@@ -255,10 +350,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Receiver for the StarterAssets JumpLand clip's animation event. The
+    /// template plays a landing sound here; this project has none, but without
+    /// a receiver Unity logs an error on every landing.
+    /// </summary>
+    private void OnLand(AnimationEvent animationEvent)
+    {
+    }
+
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
         _animIDGrounded = Animator.StringToHash("Grounded");
+        _animIDJump = Animator.StringToHash("Jump");
+        _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 

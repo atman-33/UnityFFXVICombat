@@ -16,7 +16,8 @@ the migration (each error and its fix) lives in the vault:
 3. Open it. Accept the Input System restart prompt if it appears.
 4. Play `Assets/_Project/Scenes/MainScene.unity`.
    Controls: WASD move, LMB attack, RMB Phoenix Shift, Space dodge,
-   Shift abilities.
+   F jump, Shift abilities. Gamepad: A jump, X attack, B Phoenix Shift,
+   RB dodge, RT abilities.
 
 ## Package state
 
